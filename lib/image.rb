@@ -44,7 +44,7 @@ module MRGraphics
       :in => 'CISourceInCompositing',
       :out => 'CISourceOutCompositing',
       :over => 'CISourceOverCompositing'
-    }
+    }.freeze
     BlendModes.default('CISourceOverCompositing')
       
     attr_reader :cgimage
@@ -58,14 +58,12 @@ module MRGraphics
         @path = img
         File.exists?(@path) or raise "ERROR: file not found: #{@path}"
         image_source = CGImageSourceCreateWithURL(NSURL.fileURLWithPath(@path), nil)
-        @cgimage = CGImageSourceCreateImageAtIndex(image_source, 0, nil)
-        @ciimage = CIImage.imageWithCGImage(@cgimage)
+        @cgimage     = CGImageSourceCreateImageAtIndex(image_source, 0, nil)
+        @ciimage     = CIImage.imageWithCGImage(@cgimage)
       when Canvas
         puts "Image.new with canvas" if @verbose
         @path = 'canvas'
         @cgimage = img.cgimage
-      when Image
-        # copy image?
       else
         raise "ERROR: image type not recognized: #{img.class}"
       end
@@ -237,7 +235,7 @@ module MRGraphics
     
     # set the origin to the specified location (:center, :bottomleft, etc)
     def origin(location=:bottomleft)
-      movex, movey = reorient(x, y, width, height, location)
+      movex, movey = MRGraphics.reorient(x, y, width, height, location)
       translate(movex, movey)
     end
   

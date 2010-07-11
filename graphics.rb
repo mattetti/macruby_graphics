@@ -109,7 +109,7 @@ module MRGraphics
 
   # given an object's x,y coordinates and dimensions, return the distance 
   # needed to move in order to orient the object at the given location (:center, :bottomleft, etc)
-  def reorient(x, y, w, h, location)
+  def self.reorient(x, y, w, h, location)
     case location
     when :bottomleft
       movex = -x
@@ -149,7 +149,6 @@ module MRGraphics
 end
 
 require 'pathname'
-
 here = Pathname.new(File.dirname(__FILE__))
 
 require here.join('lib/canvas')

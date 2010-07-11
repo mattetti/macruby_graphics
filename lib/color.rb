@@ -177,7 +177,7 @@ module MRGraphics
         "cyan"                 => [0.00, 0.68, 0.94],
         #"transparent"          => [0.00, 0.00, 0.00, 0.00],
         "bark"                 => [0.25, 0.19, 0.13]
-    }
+    }.freeze
     
     RYBWheel = [
       [  0,   0], [ 15,   8],
@@ -193,7 +193,7 @@ module MRGraphics
       [300, 267], [315, 282],
       [330, 298], [345, 329],
       [360, 0  ]
-    ]
+    ].freeze
 
     COLORNAMES.each_key do |name|
       metaclass = (class << self; self; end)
@@ -230,17 +230,15 @@ module MRGraphics
     # return the name of the nearest named color
     def name
       nearest, d = ["", 1.0]
-      red = r
-      green = g
-      blue = b
-      for hue in COLORNAMES.keys
-        rdiff = (red - COLORNAMES[hue][0]).abs
-        gdiff = (green - COLORNAMES[hue][1]).abs
-        bdiff = (blue - COLORNAMES[hue][2]).abs
-        totaldiff = rdiff + gdiff + bdiff
-        if (totaldiff < d)
-          nearest, d = [hue, totaldiff]
-        end
+      red        = r
+      green      = g
+      blue       = b
+      COLORNAMES.keys.each do |hue|
+        rdiff      = (red - COLORNAMES[hue][0]).abs
+        gdiff      = (green - COLORNAMES[hue][1]).abs
+        bdiff      = (blue - COLORNAMES[hue][2]).abs
+        totaldiff  = rdiff + gdiff + bdiff
+        nearest, d = [hue, totaldiff] if (totaldiff < d)
       end
       nearest
     end
