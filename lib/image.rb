@@ -175,7 +175,7 @@ module MRGraphics
       height_ratio = h.to_f / oldh.to_f
       aspect = width_ratio / height_ratio  # (works when stretching tall, gives aspect = 0.65)
       scale(height_ratio,aspect)
-      origin(:bottomleft)
+      origin(:bottom_left)
       self
     end
   
@@ -200,7 +200,7 @@ module MRGraphics
       #vector = CIVector.vectorWithX_Y_Z_W(x.to_f,y.to_f,w.to_f,h.to_f)
       vector = CIVector.vectorWithX x.to_f, Y:y.to_f, Z:w.to_f, W:h.to_f
       filter('CICrop', :inputRectangle => vector)
-      origin(:bottomleft)
+      origin(:bottom_left)
       self
     end
   
@@ -232,8 +232,8 @@ module MRGraphics
       self
     end
     
-    # set the origin to the specified location (:center, :bottomleft, etc)
-    def origin(location=:bottomleft)
+    # set the origin to the specified location (:center, :bottom_left, etc)
+    def origin(location=:bottom_left)
       movex, movey = MRGraphics.reorient(x, y, width, height, location)
       translate(movex, movey)
     end

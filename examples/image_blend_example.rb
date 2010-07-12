@@ -9,14 +9,14 @@ class CustomView < NSView
 
   def drawRect(rect)
     dimensions = [415,730]
-    canvas = Canvas.for_image(:size => dimensions) do
-      background(Color.white)
-      font('Skia')
-      font_size(14)
+    canvas = Canvas.for_image(:size => dimensions) do |c|
+      c.background(Color.white)
+      c.font('Skia')
+      c.font_size(14)
       # set image width,height
       w, h = [95,95]
       # set initial drawing position
-      x, y = [10, height - h - 10]
+      x, y = [10, c.height - h - 10]
       # load and resize two images
       img_a = Image.new(File.join(HERE, 'images', 'v2.jpg')).resize(w,h)
       img_b = Image.new(File.join(HERE, 'images', 'italy.jpg')).resize(w,h)
@@ -28,10 +28,10 @@ class CustomView < NSView
         :in,:out,:over].each do |blendmode|
         img_a.reset.resize(w,h)
         img_a.blend(img_b, blendmode)
-        draw(img_a,x,y)
-        text(blendmode, x, y-15)
+        c.draw(img_a,x,y)
+        c.text(blendmode, x, y-15)
         x += w + 5
-        if (x > width - w + 5)
+        if (x > c.width - w + 5)
           x = 10
           y -= h + 25
         end
