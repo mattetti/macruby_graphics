@@ -107,4 +107,4 @@ You can see a list of examples in the examples folder, but here is a quick sampl
     # start the app
     app.start
     
-[MacRuby Image blend modes](http://img.skitch.com/20100712-bedhi8i4ppuqetad263w3ehuna.png)
+![MacRuby Image blend modes](http://img.skitch.com/20100712-bedhi8i4ppuqetad263w3ehuna.png)
