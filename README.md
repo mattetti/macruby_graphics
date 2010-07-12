@@ -1,4 +1,4 @@
-= MacRuby Graphics 
+# MacRuby Graphics 
 
 MacRuby Graphics is a graphics library providing a simple object-oriented 
 interface into the power of Mac OS X's Core Graphics and Core Image drawing libraries.  
@@ -15,7 +15,7 @@ The original author of this library is James Reynolds, MacRuby was then called R
 and was packaged as part of Hotcocoa. I made the choice to extract it, add more examples and specs
 so MacRuby developers could use this library as an addon to their projects without needing HotCocoa.
 
-== Examples
+## Examples
 
 You can see a list of examples in the examples folder, but here is a quick sample:
 
