@@ -11,7 +11,7 @@ graphics programming environments are more full-featured than MRG, but they are 
 in Java and Python, respectively.  MRG was created to offer similar functionality using 
 the Ruby programming language.
 
-The original author of this library is James Reynolds, MacRuby was then called Ruby Cocoa Graphics
+The original author of this library is James Reynolds, MacRuby Graphics was then called Ruby Cocoa Graphics
 and was packaged as part of Hotcocoa. I made the choice to extract it, add more examples and specs
 so MacRuby developers could use this library as an addon to their projects without needing HotCocoa.
 
