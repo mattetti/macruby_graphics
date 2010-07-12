@@ -22,7 +22,7 @@ module MRGraphics
   
     # create a new gradient from black to white
     def initialize(*colors)
-      @colorspace = CGColorSpaceCreateWithName(KCGColorSpaceGenericRGB)
+      @colorspace = CGColorSpaceCreateDeviceRGB()
       colors      = colors[0] if colors[0].class == Array
       set(colors)
       pre(true)

@@ -354,8 +354,8 @@ module MRGraphics
   
     # draw the arc of a circle with center point x,y, radius, start angle (0 deg = 12 o'clock) and end angle
     def arc(x, y, radius, start_angle, end_angle)
-      start_angle = radians(90-start_angle)
-      end_angle = radians(90-end_angle)
+      start_angle = MRGraphics.radians(90-start_angle)
+      end_angle = MRGraphics.radians(90-end_angle)
       clockwise = 1 # 1 = clockwise, 0 = counterclockwise
       CGContextAddArc(@ctx, x, y, radius, start_angle, end_angle, clockwise)
       CGContextDrawPath(@ctx, KCGPathStroke)
@@ -472,7 +472,7 @@ module MRGraphics
   
     # rotate by the specified degrees
     def rotate(deg=0)
-      CGContextRotateCTM(@ctx, radians(-deg));
+      CGContextRotateCTM(@ctx, MRGraphics.radians(-deg));
     end
   
     # translate drawing context by x,y
@@ -554,7 +554,7 @@ module MRGraphics
       CGContextClip(@ctx)
       if block
         block.call
-        endclip
+        end_clip
       end
     end
   
@@ -790,9 +790,9 @@ module MRGraphics
 
               # if there's an image, draw it clipped by the path
               if (p.image)
-                beginclip(p)
+                begin_clip(p)
                 image(p.image)
-                endclip
+                end_clip
               end
 
             end

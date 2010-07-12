@@ -358,6 +358,11 @@ module MRGraphics
       brightness(brightness + step)
       self
     end
+    
+    def ish(val=0.1)
+      self.analog(20, val)
+      self
+    end
   
     # set the R,G,B,A values
     def set(r, g, b, a=1.0)
@@ -499,11 +504,11 @@ module MRGraphics
       current_brightness = self.brightness
       # generate new values
       randhue = ((rand * maxhue) - maxhue/2.0) + current_hue
-      randhue = inrange(randhue, (@original_hue - maxhue/2.0),(@original_hue + maxhue/2.0))
+      randhue = MRGraphics.in_range(randhue, (@original_hue - maxhue/2.0),(@original_hue + maxhue/2.0))
       randsat = (rand * maxsat) - maxsat/2.0 + current_saturation
-      randsat = inrange(randsat, @original_saturation - maxsat/2.0,@original_saturation + maxsat/2.0)
+      randsat = MRGraphics.in_range(randsat, @original_saturation - maxsat/2.0,@original_saturation + maxsat/2.0)
       randbright = (rand * maxbright) - maxbright/2.0 + current_brightness
-      randbright = inrange(randbright, @original_brightness - maxbright/2.0,@original_brightness + maxbright/2.0)
+      randbright = MRGraphics.in_range(randbright, @original_brightness - maxbright/2.0,@original_brightness + maxbright/2.0)
       # assign new values
       self.hue(randhue)
       self.saturation(randsat)
@@ -637,7 +642,7 @@ module MRGraphics
     # The contrast determines the darkness/lightness of
     # the analogue colors in respect to the given colors.
     def analogous(angle=10, contrast=0.25)
-      contrast = inrange(contrast, 0.0, 1.0)
+      contrast = MRGraphics.in_range(contrast, 0.0, 1.0)
 
       colors = []
       colors.push(self)
@@ -764,7 +769,7 @@ module MRGraphics
       # vary a single color component by a multiplier
       def vary(original, variance)
         newvalue = original + (rand * variance * (rand > 0.5 ? 1 : -1))
-        newvalue = inrange(newvalue,0.0,1.0)
+        newvalue = MRGraphics.in_range(newvalue,0.0,1.0)
         newvalue
       end
   

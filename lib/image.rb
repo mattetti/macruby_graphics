@@ -225,7 +225,7 @@ module MRGraphics
     # rotate image by degrees
     def rotate(deg)
       puts "image.rotate #{deg}" if @verbose
-      #transform = CGAffineTransformMakeRotation(radians(deg));
+      #transform = CGAffineTransformMakeRotation(MRGraphics.radians(deg));
       transform = NSAffineTransform.transform
       transform.rotateByDegrees(-deg)
       filter 'CIAffineTransform', :inputTransform => transform
@@ -249,7 +249,7 @@ module MRGraphics
   
     # apply a gaussian blur with pixel radius 1-100
     def blur(radius=10.0)
-      filter 'CIGaussianBlur', :inputRadius => inrange(radius, 1.0, 100.0)
+      filter 'CIGaussianBlur', :inputRadius => MRGraphics.in_range(radius, 1.0, 100.0)
       self
     end
   
@@ -263,26 +263,26 @@ module MRGraphics
     def motionblur(radius=10.0, angle=90.0)
       oldx, oldy, oldw, oldh = [x, y, width, height]
       clamp
-      filter 'CIMotionBlur', :inputRadius => radius, :inputAngle => radians(angle)
+      filter 'CIMotionBlur', :inputRadius => radius, :inputAngle => MRGraphics.radians(angle)
       crop(oldx, oldy, oldw, oldh)
       self
     end
 
     # rotate pixels around x,y with radius and angle
     def twirl(x=0, y=0, radius=300, angle=90.0)
-      filter 'CITwirlDistortion', :inputCenter => CIVector.vectorWithX(x, Y:y), :inputRadius => radius, :inputAngle => radians(angle)
+      filter 'CITwirlDistortion', :inputCenter => CIVector.vectorWithX(x, Y:y), :inputRadius => radius, :inputAngle => MRGraphics.radians(angle)
       self
     end
 
     # apply a bloom effect
     def bloom(radius=10, intensity=1.0)
-      filter 'CIBloom', :inputRadius => inrange(radius, 0, 100), :inputIntensity => inrange(intensity, 0.0, 1.0)
+      filter 'CIBloom', :inputRadius => MRGraphics.in_range(radius, 0, 100), :inputIntensity => MRGraphics.in_range(intensity, 0.0, 1.0)
       self
     end
 
     # adjust the hue of the image by rotating the color wheel from 0 to 360 degrees
     def hue(angle=180)
-      filter 'CIHueAdjust', :inputAngle => radians(angle)
+      filter 'CIHueAdjust', :inputAngle => MRGraphics.radians(angle)
       self
     end
 
@@ -300,25 +300,25 @@ module MRGraphics
   
     # reduce colors with a banding effect
     def posterize(levels=6.0)
-      filter 'CIColorPosterize', :inputLevels => inrange(levels, 1.0, 300.0)
+      filter 'CIColorPosterize', :inputLevels => MRGraphics.in_range(levels, 1.0, 300.0)
       self
     end
   
     # detect edges
     def edges(intensity=1.0)
-      filter 'CIEdges', :inputIntensity => inrange(intensity, 0.0,10.0)
+      filter 'CIEdges', :inputIntensity => MRGraphics.in_range(intensity, 0.0,10.0)
       self
     end
   
     # apply woodblock-like effect
     def edgework(radius=1.0)
-      filter 'CIEdgeWork', :inputRadius => inrange(radius, 0.0,20.0)
+      filter 'CIEdgeWork', :inputRadius => MRGraphics.in_range(radius, 0.0,20.0)
       self
     end
   
     # adjust exposure by f-stop
     def exposure(ev=0.5)
-      filter 'CIExposureAdjust', :inputEV => inrange(ev, -10.0, 10.0)
+      filter 'CIExposureAdjust', :inputEV => MRGraphics.in_range(ev, -10.0, 10.0)
       self
     end
   
@@ -330,13 +330,13 @@ module MRGraphics
   
     # adjust brightness (-1 to 1)
     def brightness(value=1.1)
-      filter 'CIColorControls', :inputSaturation => 1.0, :inputBrightness => inrange(value, -1.0, 1.0), :inputContrast => 1.0
+      filter 'CIColorControls', :inputSaturation => 1.0, :inputBrightness => MRGraphics.in_range(value, -1.0, 1.0), :inputContrast => 1.0
       self
     end
   
     # adjust contrast (0 to 4)
     def contrast(value=1.5)
-      #value = inrange(value,0.25,100.0)
+      #value = MRGraphics.in_range(value,0.25,100.0)
       filter 'CIColorControls', :inputSaturation => 1.0, :inputBrightness => 0.0, :inputContrast => value
       self
     end
@@ -353,7 +353,7 @@ module MRGraphics
   
     # use the gray values of the input image as a displacement map (doesn't work with PNG?)
     def displacement(image, scale=50.0)
-      filter 'CIDisplacementDistortion', :inputDisplacementImage => image.ciimage, :inputScale => inrange(scale, 0.0, 200.0)
+      filter 'CIDisplacementDistortion', :inputDisplacementImage => image.ciimage, :inputScale => MRGraphics.in_range(scale, 0.0, 200.0)
       self
     end
   

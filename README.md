@@ -108,3 +108,7 @@ You can see a list of examples in the examples folder, but here is a quick sampl
     app.start
     
 ![MacRuby Image blend modes](http://img.skitch.com/20100712-bedhi8i4ppuqetad263w3ehuna.png)
+
+More output:
+
+![MacRuby Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)
