@@ -23,7 +23,7 @@ module MRGraphics
     # create a new gradient from black to white
     def initialize(*colors)
       @colorspace = CGColorSpaceCreateWithName(KCGColorSpaceGenericRGB)
-      colors = colors[0] if colors[0].class == Array
+      colors      = colors[0] if colors[0].class == Array
       set(colors)
       pre(true)
       post(true)
@@ -33,10 +33,10 @@ module MRGraphics
     # create a gradient that evenly distributes the given colors
     def set(colors)
       colors ||= [Color.black, Color.white]
-      cgcolors = []
+      cgcolors  = []
       locations = []
       increment = 1.0 / (colors.size - 1).to_f
-      i = 0
+      i         = 0
       colors.each do |c|
         cgcolor = CGColorCreate(@colorspace, [c.r, c.g, c.b, c.a])
         cgcolors.push(cgcolor)

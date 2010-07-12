@@ -177,7 +177,7 @@ module MRGraphics
         "cyan"                 => [0.00, 0.68, 0.94],
         #"transparent"          => [0.00, 0.00, 0.00, 0.00],
         "bark"                 => [0.25, 0.19, 0.13]
-    }.freeze
+    }
     
     RYBWheel = [
       [  0,   0], [ 15,   8],
@@ -193,7 +193,7 @@ module MRGraphics
       [300, 267], [315, 282],
       [330, 298], [345, 329],
       [360, 0  ]
-    ].freeze
+    ]
 
     COLORNAMES.each_key do |name|
       metaclass = (class << self; self; end)
@@ -212,15 +212,15 @@ module MRGraphics
         color = Color.new(r, g, b, 1.0)
       elsif name.match(/^(dark|deep|light|bright)?(.*?)(ish)?$/)
         #puts "matched #{$1}-#{$2}-#{$3}"
-        value = $1
+        value      = $1
         color_name = $2
-        ish = $3
-        analogval = value ? 0 : 0.1
-        r, g, b = COLORNAMES[color_name] || [0.0, 0.0, 0.0]
-        color = Color.new(r, g, b, 1.0)
-        color = c.analog(20, analogval) if ish
-        color.lighten(0.2) if value and value.match(/light|bright/)
-        color.darken(0.2) if value and value.match(/dark|deep/)
+        ish        = $3
+        analogval  = value ? 0 : 0.1
+        r, g, b    = COLORNAMES[color_name] || [0.0, 0.0, 0.0]
+        color      = Color.new(r, g, b, 1.0)
+        color      = c.analog(20, analogval) if ish
+        color.lighten(0.2) if value && value.match(/light|bright/)
+        color.darken(0.2) if value && value.match(/dark|deep/)
       else
         color = Color.black
       end

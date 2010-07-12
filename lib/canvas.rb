@@ -9,7 +9,7 @@
 # in Java and Python, respectively.  RCG was created to offer similar functionality using 
 # the Ruby programming language.
 #
-# Author::    James Reynolds  (mailto:drtoast@drtoast.com)
+# Author::    James Reynolds  (mailto:drtoast@drtoast.com), Matt Aimonetti
 # Copyright:: Copyright (c) 2008 James Reynolds
 # License::   Distributes under the same terms as Ruby 
 
@@ -41,10 +41,10 @@ module MRGraphics
       :saturation => KCGBlendModeSaturation,
       :color      => KCGBlendModeColor,
       :luminosity => KCGBlendModeLuminosity,
-    }.freeze
+    }
     BlendModes.default(KCGBlendModeNormal)
     
-    DefaultOptions = {:quality => 0.8, :width => 400, :height => 400}.freeze
+    DefaultOptions = {:quality => 0.8, :width => 400, :height => 400}
   
     attr_accessor :width, :height  
     
@@ -86,7 +86,7 @@ module MRGraphics
     # create a new canvas with the given width, height, and output filename (pdf, png, jpg, gif, or tif)
     def initialize(options={}, &block)
       if options[:size]
-        options[:width] = options[:size][0]
+        options[:width]  = options[:size][0]
         options[:height] = options[:size][1]
       end
       options = DefaultOptions.merge(options)
@@ -102,10 +102,8 @@ module MRGraphics
       when :pdf
         @filetype  = :pdf
         # CREATE A PDF DRAWING CONTEXT
-        # url      = NSURL.fileURLWithPath(image)
         url        = CFURLCreateFromFileSystemRepresentation(nil, @output, @output.length, false)
         pdfrect    = CGRect.new(CGPoint.new(0, 0), CGSize.new(width, height)) # Landscape
-        #@ctx      = CGPDFContextCreateWithURL(url, pdfrect, nil)
         consumer   = CGDataConsumerCreateWithURL(url);
         pdfcontext = CGPDFContextCreate(consumer, pdfrect, nil);
         CGPDFContextBeginPage(pdfcontext, nil)
@@ -116,17 +114,15 @@ module MRGraphics
           extension = File.extname(@output).downcase[1..-1]
           @filetype = extension.to_sym unless extension.nil?
         end
-
         @bits_per_component = 8
-        @colorspace = CGColorSpaceCreateDeviceRGB() # => CGColorSpaceRef
-        #alpha = KCGImageAlphaNoneSkipFirst # opaque background
-        alpha = KCGImageAlphaPremultipliedFirst # transparent background
-
+        @colorspace         = CGColorSpaceCreateDeviceRGB() # => CGColorSpaceRef
+        #alpha              = KCGImageAlphaNoneSkipFirst # opaque background
+        alpha               = KCGImageAlphaPremultipliedFirst # transparent background
         # 8 integer bits/component; 32 bits/pixel; 3-component colorspace; kCGImageAlphaPremultipliedFirst; 57141 bytes/row.
         bytes = @bits_per_component * 4 * @width.ceil
-        @ctx = CGBitmapContextCreate(nil, @width, @height, @bits_per_component, bytes, @colorspace, alpha) # =>  CGContextRef
+        @ctx  = CGBitmapContextCreate(nil, @width, @height, @bits_per_component, bytes, @colorspace, alpha) # =>  CGContextRef
       when :context
-        @ctx = options[:context]
+        @ctx  = options[:context]
       else
         raise ParamsError, "The output file type #{ext} was not recognized"
       end
@@ -135,23 +131,16 @@ module MRGraphics
       CGContextSetAllowsAntialiasing(@ctx, true)
 
       # set defaults
-      fill          # set the default fill
-      nostroke      # no stroke by default
-      strokewidth   # set the default stroke width
-      font          # set the default font
-      antialias     # set the default antialias state
-      autoclosepath # set the autoclosepath default
+      fill            # set the default fill
+      no_stroke       # no stroke by default
+      stroke_width    # set the default stroke width
+      font            # set the default font
+      antialias       # set the default antialias state
+      autoclose_path! # set the autoclosepath default
       quality(options[:quality])   # set the compression default
-      push  # save the pristine default default graphics state (retrieved by calling "reset")
-      push  # create a new graphics state for the user to mess up
-      if block_given?
-        case block.arity
-        when 0
-          send(:instance_eval, &block)
-        else
-          block.call(self)
-        end
-      end
+      push            # save the pristine default graphics state (retrieved by calling "reset")
+      push            # create a new graphics state for the user to mess up
+      block.call(self) if block_given?
     end
 
     # SET CANVAS GLOBAL PARAMETERS
@@ -190,7 +179,7 @@ module MRGraphics
     end
   
     # remove current fill
-    def nofill
+    def no_fill
       CGContextSetRGBFillColor(@ctx, 0.0, 0.0, 0.0, 0.0) # RGBA
       @fill = nil
     end
@@ -209,20 +198,20 @@ module MRGraphics
       CGContextSetRGBStrokeColor(@ctx, r, g, b, a) # RGBA
       @stroke = true
     end
-  
-    # set stroke width
-    def strokewidth(width=1)
-      CGContextSetLineWidth(@ctx, width.to_f)
-    end
-  
+
     # don't use a stroke for subsequent drawing operations
-    def nostroke
+    def no_stroke
       CGContextSetRGBStrokeColor(@ctx, 0, 0, 0, 0) # RGBA
       @stroke = false
     end
+      
+    # set stroke width
+    def stroke_width(width=1)
+      CGContextSetLineWidth(@ctx, width.to_f)
+    end
   
     # set cap style to round, square, or butt
-    def linecap(style=:butt)
+    def line_cap(style=:butt)
       case style
       when :round
         cap = KCGLineCapRound
@@ -237,7 +226,7 @@ module MRGraphics
     end
   
     # set line join style to round, miter, or bevel
-    def linejoin(style=:miter)
+    def line_join(style=:miter)
       case style
       when :round
         join = KCGLineJoinRound
@@ -252,16 +241,15 @@ module MRGraphics
     end
   
     # set lengths of dashes and spaces, and distance before starting dashes
-    def linedash(lengths=[10,2], phase=0.0)
+    def line_dash(lengths=[10,2], phase=0.0)
       count=lengths.size
       CGContextSetLineDash(@ctx, phase, lengths, count)
     end
   
     # revert to solid lines
-    def nodash
+    def no_dash
       CGContextSetLineDash(@ctx, 0.0, nil, 0)
     end
-  
   
     # DRAWING SHAPES ON CANVAS
     
@@ -322,17 +310,17 @@ module MRGraphics
       # save previous state
       new_state do
         # set font and stroke
-        fontsize(fsize)
+        font_size(fsize)
         fill(Color.black)
         stroke(Color.red)
-        strokewidth(stroke)
+        stroke_width(stroke)
         # draw vertical numbered grid lines
-        for x in (-width / res)..(width / res) do
+        (-width / res)..(width / res).each do |x|
           line(x * res, -height, x * res, height)
           text("#{x * res}", x * res, 0)
         end
         # draw horizontal numbered grid lines
-        for y in (-height / res)..(height / res) do
+        (-height / res)..(height / res).each do |y|
           line(-width, y * res, width, y * res)
           text("#{y * res}", 0, y * res)
         end
@@ -354,15 +342,14 @@ module MRGraphics
     def line(x1, y1, x2, y2)
       CGContextAddLines(@ctx, [NSPoint.new(x1, y1), NSPoint.new(x2, y2)], 2)
       CGContextDrawPath(@ctx, KCGPathStroke) # apply stroke
-      endpath
-      
+      end_path
     end
   
     # draw a series of lines connecting the given array of points
     def lines(points)
       CGContextAddLines(@ctx, points, points.size)
       CGContextDrawPath(@ctx, KCGPathStroke) # apply stroke
-      endpath
+      end_path
     end
   
     # draw the arc of a circle with center point x,y, radius, start angle (0 deg = 12 o'clock) and end angle
@@ -378,14 +365,14 @@ module MRGraphics
     def curve(cp1x, cp1y, cp2x, cp2y, x1, y1, x2, y2)
       beginpath(x1, y1)
       CGContextAddCurveToPoint(@ctx, cp1x, cp1y, cp2x, cp2y, x2, y2)
-      endpath
+      end_path
     end
   
     # draw a quadratic bezier curve from x1,y1 to x2,y2, given the coordinates of one control point
     def qcurve(cpx, cpy, x1, y1, x2, y2)
       beginpath(x1, y1)
       CGContextAddQuadCurveToPoint(@ctx, cpx, cpy, x2, y2)
-      endpath
+      end_path
     end
   
     # draw the given Path object
@@ -396,59 +383,66 @@ module MRGraphics
       when Image
         draw_image(object, *args)
       else
-        raise ArgumentError.new("first parameter must be a Path or Image object not a #{object.class}")
+        raise ArgumentError, "first parameter must be a Path or Image object not a #{object.class}"
       end
     end
 
     # CONSTRUCTING PATHS ON CANVAS
 
-    # if true, automatically close the path after it is ended
-    def autoclosepath(tf=false)
-      @autoclosepath = tf
+    # automatically close the path after it is ended
+    def autoclose_path!
+      @autoclosepath = true
+    end
+    
+    def autoclose_path=(bool)
+      if bool == true
+        autoclose_path!
+      else
+        @autoclose_path = false
+      end
     end
     
     def new_path(x, y, &block)
       beginpath(x, y)
       block.call
-      endpath
+      end_path
     end
     
     # begin drawing a path at x,y
-    def beginpath(x, y)
+    def begin_path(x, y)
       CGContextBeginPath(@ctx)
       CGContextMoveToPoint(@ctx, x, y)
     end
 
     # end the current path and draw it
-    def endpath
+    def end_path
       CGContextClosePath(@ctx) if @autoclosepath
-      #mode = KCGPathStroke
       mode = KCGPathFillStroke
       CGContextDrawPath(@ctx, mode) # apply fill and stroke
     end
   
     # move the "pen" to x,y
-    def moveto(x, y)
+    def move_to(x, y)
       CGContextMoveToPoint(@ctx, x, y)
     end
 
     # draw a line from the current point to x,y
-    def lineto(x, y)
+    def line_to(x, y)
       CGContextAddLineToPoint(@ctx ,x, y)
     end
   
     # draw a bezier curve from the current point, given the coordinates of two handle control points and an end point
-    def curveto(cp1x, cp1y, cp2x, cp2y, x, y)
+    def curve_to(cp1x, cp1y, cp2x, cp2y, x, y)
       CGContextAddCurveToPoint(@ctx, cp1x, cp1y, cp2x, cp2y, x, y)
     end
 
     # draw a quadratic bezier curve from the current point, given the coordinates of one control point and an end point
-    def qcurveto(cpx, cpy, x, y)
+    def qcurve_to(cpx, cpy, x, y)
       CGContextAddQuadCurveToPoint(@ctx, cpx, cpy, x, y)
     end
   
     # draw an arc given the endpoints of two tangent lines and a radius
-    def arcto(x1, y1, x2, y2, radius)
+    def arc_to(x1, y1, x2, y2, radius)
       CGContextAddArcToPoint(@ctx, x1, y1, x2, y2, radius)
     end
     
@@ -521,9 +515,8 @@ module MRGraphics
   
     # restore the initial context
     def reset
-      until (@stacksize <= 1)
-        pop  # retrieve graphics states until we get to the default state
-      end
+      # retrieve graphics states until we get to the default state
+      pop until (@stacksize <= 1)
       push  # push the retrieved pristine default state back onto the stack
     end
   
@@ -536,15 +529,15 @@ module MRGraphics
       CGContextSetShadowWithColor(@ctx, [dx, dy], blur, color)
     end
   
+    # stop using a shadow
+    def no_shadow
+      CGContextSetShadowWithColor(@ctx, [0,0], 1, nil)
+    end
+    
     # apply a glow with offset dx,dy, alpha, and blur
     def glow(dx=0.0, dy=0.0, a=2.0/3.0, blur=5)
       color = CGColorCreate(@colorspace, [1.0, 1.0, 0.0, a])
       CGContextSetShadowWithColor(@ctx, [dx, dy], blur, color)
-    end
-  
-    # stop using a shadow
-    def noshadow
-      CGContextSetShadowWithColor(@ctx, [0,0], 1, nil)
     end
   
     # set the canvas blend mode (:normal, :darken, :multiply, :screen, etc)
@@ -552,11 +545,10 @@ module MRGraphics
       CGContextSetBlendMode(@ctx, BlendModes[mode])
     end
   
-  
     # CLIPPING MASKS
     
     # clip subsequent drawing operations within the given path
-    def beginclip(p, &block)
+    def begin_clip(p, &block)
       push
       CGContextAddPath(@ctx, p.path)
       CGContextClip(@ctx)
@@ -567,18 +559,16 @@ module MRGraphics
     end
   
     # stop clipping drawing operations
-    def endclip
+    def end_clip
       pop
     end
   
     # DRAW TEXT TO CANVAS
-  
-    # NOTE: may want to switch to ATSUI for text handling
-    # http://developer.apple.com/documentation/Carbon/Reference/ATSUI_Reference/Reference/reference.html
-  
+    
     # write the text at x,y using the current fill
-    def text(txt="A", x=0, y=0)
-      txt = txt.to_s unless txt.kind_of?(String)
+    def text(txt="", x=0, y=0)
+      # not sure that's worth doing that here
+      txt = txt.to_s
       if @registration == :center
         width = textwidth(txt)
         x = x - width / 2
@@ -588,7 +578,7 @@ module MRGraphics
     end
   
     # determine the width of the given text without drawing it
-    def textwidth(txt, width=nil)
+    def text_width(txt, width=nil)
       push
       start = CGContextGetTextPosition(@ctx)
       CGContextSetTextDrawingMode(@ctx, KCGTextInvisible)
@@ -598,34 +588,34 @@ module MRGraphics
       final.x - start.x
     end
   
-    # def textheight(txt)
+    # def text_height(txt)
     #   # need to use ATSUI
     # end
     # 
-    # def textmetrics(txt)
+    # def text_metrics(txt)
     #   # need to use ATSUI
     # end
   
     # set font by name and optional size
     def font(name="Helvetica", size=nil)
-      fontsize(size) if size
+      font_size(size) if size
       @fname = name
-      fontsize unless @fsize
+      font_size unless @fsize
       CGContextSelectFont(@ctx, @fname, @fsize, KCGEncodingMacRoman)
     end
   
     # set font size in points
-    def fontsize(points=20)
+    def font_size(points=20)
       @fsize = points
       font unless @fname
-      #CGContextSetFontSize(@ctx,points)
+      # encoding could have also been set as KCGEncodingFontSpecific
       CGContextSelectFont(@ctx, @fname, @fsize, KCGEncodingMacRoman)
     end
   
   
     # SAVING/EXPORTING
     
-    def nsimage
+    def ns_image
       image = NSImage.alloc.init
       image.addRepresentation(NSBitmapImageRep.alloc.initWithCGImage(cgimage))
       image
@@ -644,19 +634,18 @@ module MRGraphics
     end
 
     # begin a new PDF page
-    def newpage
+    def new_page
       if (@filetype == :pdf)
         CGContextFlush(@ctx)
         CGPDFContextEndPage(@ctx)
         CGPDFContextBeginPage(@ctx, nil)
       else
-        puts "WARNING: newpage only valid when using PDF output"
+        puts "WARNING: new_page only valid when using PDF output"
       end
     end
   
     # save the image to a file
     def save
-    
       properties = {}
   #    exif = {}
       # KCGImagePropertyExifDictionary
@@ -685,6 +674,7 @@ module MRGraphics
       bitmaprep = NSBitmapImageRep.alloc.initWithCGImage(cgimageref)     # => NSBitmapImageRep
       blob = bitmaprep.representationUsingType(format, properties:properties) # => NSConcreteData
       blob.writeToFile(@output, atomically:true)
+      puts @output
       true
     end
 
@@ -728,7 +718,7 @@ module MRGraphics
               # PICK AND ADJUST FILL/STROKE COLORS:
               [:fill,:stroke].each do |kind|
                 # PICK A COLOR
-                if (p.inc[kind]) then
+                if (p.inc[kind])
                   # increment color from array
                   colorindex = i % p.inc[kind].size
                   c = p.inc[kind][colorindex].copy
@@ -830,11 +820,10 @@ module MRGraphics
             h ||= img.height
             img.draw(@ctx, x, y, w, h)
           else
-            raise ArgumentError.new("canvas.image: not a recognized image type: #{img.class}")
+            raise ArgumentError, "canvas.image: not a recognized image type: #{img.class}"
           end
         end
       end
-      
   
   end
 

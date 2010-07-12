@@ -12,7 +12,7 @@ class CustomView < NSView
     canvas = Canvas.for_image(:size => dimensions) do
       background(Color.white)
       font('Skia')
-      fontsize(14)
+      font_size(14)
       # set image width,height
       w, h = [95,95]
       # set initial drawing position

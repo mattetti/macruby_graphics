@@ -17,7 +17,6 @@ module MRGraphics
   
   # load a raw image file for use on a canvas
   class Image
-
     
     BlendModes = {
       :normal => 'CISourceOverCompositing',
@@ -44,7 +43,7 @@ module MRGraphics
       :in => 'CISourceInCompositing',
       :out => 'CISourceOutCompositing',
       :over => 'CISourceOverCompositing'
-    }.freeze
+    }
     BlendModes.default('CISourceOverCompositing')
       
     attr_reader :cgimage

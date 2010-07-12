@@ -22,9 +22,9 @@ module MRGraphics
   
     # create a new path, starting at optional x,y
     def initialize(x=0, y=0, &block)
-      @path = CGPathCreateMutable()
+      @path      = CGPathCreateMutable()
       @transform = CGAffineTransformMakeTranslation(0,0)
-      moveto(x, y)
+      move_to(x, y)
     
       # set randomized rendering parameters
       @rand = {}
@@ -46,17 +46,10 @@ module MRGraphics
       increment(:scaley, 1.0)
 
       @strokewidth = 1.0
-      @x = 0.0
-      @y = 0.0
+      @x           = 0.0
+      @y           = 0.0
       
-      if block
-        case block.arity
-        when 0
-          self.send(:instance_eval, &block)
-        else
-          block.call(self)
-        end
-      end
+      block.call(self) if block
       self
     end
   
@@ -80,9 +73,9 @@ module MRGraphics
   
     # return a mutable clone of this path
     def clone
-      newpath = self.dup
-      newpath.path = CGPathCreateMutableCopy(@path)
-      newpath
+      new_path = self.dup
+      new_path.path = CGPathCreateMutableCopy(@path)
+      new_path
     end
 
   
@@ -94,12 +87,12 @@ module MRGraphics
     end
   
     # print drawing operations if verbose is true
-    def verbose(tf=true)
-      @verbose = tf
+    def verbose(bool=true)
+      @verbose = bool
     end
 
     # draw without stroke
-    def nostroke
+    def no_stroke
       @stroke = nil
     end
   
@@ -111,12 +104,12 @@ module MRGraphics
     end
   
     # return the x coordinate of the path's origin
-    def originx
+    def origin_x
       CGPathGetBoundingBox(@path).origin.x
     end
   
     # return the y coordinate of the path's origin
-    def originy
+    def origin_y
       CGPathGetBoundingBox(@path).origin.y
     end
   
@@ -131,7 +124,7 @@ module MRGraphics
     end
   
     # return the current point
-    def currentpoint
+    def current_point
       CGPathGetCurrentPoint(@path)
     end
   
@@ -145,8 +138,8 @@ module MRGraphics
     # ADD SHAPES TO PATH
   
     # add another path to this path
-    def addpath(p)
-      CGPathAddPath(@path, @transform, p.path)
+    def add_path(p)
+      CGPathadd_path(@path, @transform, p.path)
     end
 
     # add a rectangle starting at [x,y] with dimensions w x h
@@ -161,7 +154,7 @@ module MRGraphics
     end
 
     # draw a rounded rectangle using quadratic curved corners (FIXME)
-    def roundrect(x=0, y=0, width=20, height=20, roundness=0, reg=@registration)
+    def round_rect(x=0, y=0, width=20, height=20, roundness=0, reg=@registration)
       if roundness == 0
         p.rect(x, y, width, height, reg)
       else
@@ -171,17 +164,17 @@ module MRGraphics
         end
         curve = min(width * roundness, height * roundness)
         p = Path.new
-        p.moveto(x, y+curve)
-        p.curveto(x, y, x, y, x+curve, y)
-        p.lineto(x+width-curve, y)
-        p.curveto(x+width, y, x+width, y, x+width, y+curve)
-        p.lineto(x+width, y+height-curve)
-        p.curveto(x+width, y+height, x+width, y+height, x+width-curve, y+height)
-        p.lineto(x+curve, y+height)
-        p.curveto(x, y+height, x, y+height, x, y+height-curve)
-        p.endpath
+        p.move_to(x, y+curve)
+        p.curve_to(x, y, x, y, x+curve, y)
+        p.line_to(x+width-curve, y)
+        p.curve_to(x+width, y, x+width, y, x+width, y+curve)
+        p.line_to(x+width, y+height-curve)
+        p.curve_to(x+width, y+height, x+width, y+height, x+width-curve, y+height)
+        p.line_to(x+curve, y+height)
+        p.curve_to(x, y+height, x, y+height, x, y+height-curve)
+        p.end_path
       end
-      addpath(p)
+      add_path(p)
       self
     end
 
@@ -211,8 +204,8 @@ module MRGraphics
 
     # draw the arc of a circle with center point x,y, radius, start angle (0 deg = 12 o'clock) and end angle
     def arc(x, y, radius, start_angle, end_angle)
-      start_angle = radians(90 - start_angle)
-      end_angle   = radians(90 - end_angle)
+      start_angle = MRGraphics.radians(90 - start_angle)
+      end_angle   = MRGraphics.radians(90 - end_angle)
       clockwise   = 1 # 1 = clockwise, 0 = counterclockwise
       CGPathAddArc(@path, @transform, x, y, radius, start_angle, end_angle, clockwise)
       self
@@ -228,37 +221,37 @@ module MRGraphics
     # CONSTRUCT PATHS IN PATH OBJECT
   
     # move the "pen" to x,y
-    def moveto(x, y)
+    def move_to(x, y)
       CGPathMoveToPoint(@path, @transform,x,y)
       self
     end
   
     # draw a line from the current point to x,y
-    def lineto(x,y)
+    def line_to(x,y)
       CGPathAddLineToPoint(@path, @transform, x, y)
       self
     end
 
     # draw a bezier curve from the current point, given the coordinates of two handle control points and an end point
-    def curveto(cp1x, cp1y, cp2x, cp2y, x,  y)
+    def curve_to(cp1x, cp1y, cp2x, cp2y, x,  y)
       CGPathAddCurveToPoint(@path, @transform, cp1x, cp1y, cp2x, cp2y, x, y)
       self
     end
   
     # draw a quadratic curve given a single control point and an end point
-    def qcurveto(cpx, cpy, x, y)
+    def qcurve_to(cpx, cpy, x, y)
       CGPathAddQuadCurveToPoint(@path, @transform, cpx, cpy, x, y)
       self
     end
   
     # draw an arc given the endpoints of two tangent lines and a radius
-    def arcto(x1, y1, x2, y2, radius)
+    def arc_to(x1, y1, x2, y2, radius)
       CGPathAddArcToPoint(@path, @transform, x1, y1, x2, y2, radius)
       self
     end
   
     # end the current path
-    def endpath
+    def end_path
       CGPathCloseSubpath(@path)
     end
     
@@ -268,7 +261,7 @@ module MRGraphics
     # specify rotation for subsequent operations
     def rotate(deg)
       puts "path.rotate #{deg}" if @verbose
-      @transform = CGAffineTransformRotate(@transform, radians(deg))
+      @transform = CGAffineTransformRotate(@transform, MRGraphics.radians(deg))
     end
   
     # scale by horizontal/vertical scaling factors sx,sy for subsequent drawing operations
@@ -293,10 +286,10 @@ module MRGraphics
   
     # draw a petal starting at x,y with w x h and center bulge height using quadratic curves
     def petal(x=0, y=0, w=10, h=50, bulge=h/2)
-      moveto(x,y)
-      qcurveto(x - w, y + bulge, x, y + h)
-      qcurveto(x + w, y + bulge, x, y)
-      endpath
+      move_to(x,y)
+      qcurve_to(x - w, y + bulge, x, y + h)
+      qcurve_to(x + w, y + bulge, x, y)
+      end_path
       self
     end
   
@@ -304,7 +297,7 @@ module MRGraphics
     def kaleidoscope(path,qty)
       deg = 360 / qty
       qty.times do
-        addpath(path)
+        add_path(path)
         rotate(deg)
       end
     end
@@ -313,13 +306,12 @@ module MRGraphics
     #path, rotation, scale, translation, iterations
     def spiral(path=nil, rotation=20, scalex=0.95, scaley=0.95, tx=10, ty=10, iterations=30)
       iterations.times do
-        addpath(path)
+        add_path(path)
         rotate(rotation)
         scale(scalex, scaley)
         translate(tx, ty)
       end
     end
-  
 
   end
 end

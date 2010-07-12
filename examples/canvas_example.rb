@@ -7,22 +7,21 @@ class CustomView < NSView
   include MRGraphics
 
   def drawRect(rect)
-    canvas = Canvas.for_image(:size => [400,400]) do
-      background(Color.black)
-
+    canvas = Canvas.for_image(:size => [400,400]) do |c|
+      c.background(Color.black)
       white = Color.white
-      fill(white)
-      stroke(0.2)
-      strokewidth(1)   
-      font("Zapfino")
+      c.fill(white)
+      c.stroke(0.2)
+      c.stroke_width(1)   
+      c.font("Zapfino")
 
       80.times do 
-        fontsize rand(170)
-        fill(white.copy.darken(rand(0.8)))
+        c.font_size rand(170)
+        c.fill(white.copy.darken(rand(0.8)))
         letters = %W{ g i a n a } 
-        text(letters[rand(letters.size)],
-             rand(width),
-             rand(height))
+        c.text(letters[rand(letters.size)],
+                rand(c.width),
+                rand(c.height))
       end
     end
     
