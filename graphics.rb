@@ -5,8 +5,8 @@
 # scientific data, and much more.
 # 
 # Inspiration for this project was derived from Processing and NodeBox.  These excellent 
-# graphics programming environments are more full-featured than RCG, but they are implemented 
-# in Java and Python, respectively.  RCG was created to offer similar functionality using 
+# graphics programming environments are more full-featured than MRG, but they are implemented 
+# in Java and Python, respectively.  MRG was created to offer similar functionality using 
 # the Ruby programming language.
 #
 # Author::    James Reynolds  (mailto:drtoast@drtoast.com), Matt Aimonetti
