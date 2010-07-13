@@ -51,8 +51,8 @@ module MRGraphics
       @y += @velocity_y
 
       # randomly increase/decrease direction
-      @velocity_x += random(-1.0, 1.0) * @acceleration
-      @velocity_y += random(-1.0, 1.0) * @acceleration
+      @velocity_x += MRGraphics.random(-1.0, 1.0) * @acceleration
+      @velocity_y += MRGraphics.random(-1.0, 1.0) * @acceleration
 
       # draw a line from the old position to the new
       #CANVAS.line(@previous_x,@previous_y,@x,@y);
@@ -67,8 +67,8 @@ module MRGraphics
     end
   
     def draw(canvas)
-      canvas.nofill
-      canvas.lines(@points)
+      canvas.no_fill
+      canvas.lines(@points)      
     end
   
   end

@@ -29,9 +29,6 @@ class CustomView < NSView
   
 end
 
-# wrapper class to keep the examples as clean/simple as possible
 app = AppWrapper.new
-# assign an instance of our custiom NSView to the window's content view
 app.window.contentView = CustomView.alloc.initWithFrame(app.frame)
-# start the app
 app.start

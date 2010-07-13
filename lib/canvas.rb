@@ -96,7 +96,7 @@ module MRGraphics
       @output        = options[:filename] || 'test'
       @stacksize     = 0
       @colorspace    = CGColorSpaceCreateDeviceRGB() # => CGColorSpaceRef
-      @autoclosepath = false
+      @autoclose_path = false
     
       case options[:type]
       when :pdf
@@ -391,7 +391,7 @@ module MRGraphics
 
     # automatically close the path after it is ended
     def autoclose_path!
-      @autoclosepath = true
+      @autoclose_path = true
     end
     
     def autoclose_path=(bool)
@@ -416,7 +416,8 @@ module MRGraphics
 
     # end the current path and draw it
     def end_path
-      CGContextClosePath(@ctx) if @autoclosepath
+      return if CGContextIsPathEmpty(@ctx)
+      CGContextClosePath(@ctx) if @autoclose_path
       mode = KCGPathFillStroke
       CGContextDrawPath(@ctx, mode) # apply fill and stroke
     end
@@ -787,14 +788,12 @@ module MRGraphics
 
               CGContextAddPath(@ctx, p.path) if p.class == Path
               CGContextDrawPath(@ctx, KCGPathFillStroke) # apply fill and stroke
-
               # if there's an image, draw it clipped by the path
               if (p.image)
                 begin_clip(p)
                 image(p.image)
                 end_clip
               end
-
             end
           end
         end

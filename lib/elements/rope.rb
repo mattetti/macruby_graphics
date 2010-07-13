@@ -29,9 +29,9 @@ module MRGraphics
   
     def hair(hair_x0=@x0, hair_y0=@y0, hair_x1=@x1, hair_y1=@y1, hair_width=@width, hair_fibers=@fibers)
       @canvas.push
-      @canvas.strokewidth(@strokewidth)
-      @canvas.autoclosepath(false)
-      @canvas.nofill
+      @canvas.stroke_width(@strokewidth)
+      @canvas.autoclose_path = false
+      @canvas.no_fill
       hair_x0 = MRGraphics.choose(hair_x0)
       hair_y0 = MRGraphics.choose(hair_y0)
       hair_x1 = MRGraphics.choose(hair_x1)
@@ -56,8 +56,8 @@ module MRGraphics
     def ribbon(ribbon_x0=@x0, ribbon_y0=@y0, ribbon_x1=@x1, ribbon_y1=@y1, ribbon_width=@width, ribbon_fibers=@fibers)
       @canvas.push
       @canvas.strokewidth(@strokewidth)
-      @canvas.autoclosepath(false)
-      @canvas.nofill
+      @canvas.autoclose_path = false
+      @canvas.no_fill
       black = Color.black
       white = Color.white
       ribbon_x0 = MRGraphics.choose(ribbon_x0)
@@ -83,7 +83,7 @@ module MRGraphics
         # @canvas.oval(cpx0,cpy0,5,5,:center)
         # @canvas.fill(white)
         # @canvas.oval(cpx1,cpy1,5,5,:center)
-        # @canvas.nofill
+        # @canvas.no_fill
       
         @canvas.beginpath(x0, y0)
         @canvas.curveto(
