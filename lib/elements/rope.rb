@@ -36,19 +36,19 @@ module MRGraphics
       hair_y0 = MRGraphics.choose(hair_y0)
       hair_x1 = MRGraphics.choose(hair_x1)
       hair_y1 = MRGraphics.choose(hair_y1)
-      vx0     = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
-      vy0     = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
-      vx1     = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
-      vy1     = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
+      vx0     = MRGraphics.random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
+      vy0     = MRGraphics.random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
+      vx1     = MRGraphics.random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
+      vy1     = MRGraphics.random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
       hair_fibers.times do |j|
         #x0,y0,x1,y1 = [@x0.choose,@y0.choose,@x1.choose,@y1.choose]
-        @canvas.beginpath(hair_x0, hair_y0)
-        @canvas.curveto(
+        @canvas.begin_path(hair_x0, hair_y0)
+        @canvas.curve_to(
             hair_x0 + vx0 + rand(hair_width), hair_y0 + vy0 + rand(hair_width), # control point 1
             hair_x1 + vx1, hair_y1 + vy1,                                       # control point 2
             hair_x1, hair_y1                                                    # end point
         )
-        @canvas.endpath
+        @canvas.end_path
       end
       @canvas.pop
     end
@@ -85,13 +85,13 @@ module MRGraphics
         # @canvas.oval(cpx1,cpy1,5,5,:center)
         # @canvas.no_fill
       
-        @canvas.beginpath(x0, y0)
-        @canvas.curveto(
+        @canvas.begin_path(x0, y0)
+        @canvas.curve_to(
           cpx0, cpy0,           # control point 1
           cpx1, cpy1,           # control point 2
           ribbon_x1, ribbon_y1  # end point
         )
-        @canvas.endpath
+        @canvas.end_path
       end
       @canvas.pop
     end

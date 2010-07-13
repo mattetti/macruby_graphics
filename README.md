@@ -106,3 +106,4 @@ More example outputs:
 ![MacRuby Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)
 ![MacRuby Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)
 ![MacRuby particles examples](http://img.skitch.com/20100713-gb3ps8psw3ppyedx1t1x426rwa.png)
+![MacRuby ropes](http://img.skitch.com/20100713-mseyj6qjxp38jnm2xkxpw6ebq4.png)

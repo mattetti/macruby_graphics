@@ -55,7 +55,6 @@ module MRGraphics
       @velocity_y += MRGraphics.random(-1.0, 1.0) * @acceleration
 
       # draw a line from the old position to the new
-      #CANVAS.line(@previous_x,@previous_y,@x,@y);
       @points.push(NSPoint.new(@x, @y))
     
       # grow old

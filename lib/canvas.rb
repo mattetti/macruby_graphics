@@ -363,14 +363,14 @@ module MRGraphics
   
     # draw a bezier curve from the current point, given the coordinates of two handle control points and an end point
     def curve(cp1x, cp1y, cp2x, cp2y, x1, y1, x2, y2)
-      beginpath(x1, y1)
+      begin_path(x1, y1)
       CGContextAddCurveToPoint(@ctx, cp1x, cp1y, cp2x, cp2y, x2, y2)
       end_path
     end
   
     # draw a quadratic bezier curve from x1,y1 to x2,y2, given the coordinates of one control point
     def qcurve(cpx, cpy, x1, y1, x2, y2)
-      beginpath(x1, y1)
+      begin_path(x1, y1)
       CGContextAddQuadCurveToPoint(@ctx, cpx, cpy, x2, y2)
       end_path
     end
@@ -403,7 +403,7 @@ module MRGraphics
     end
     
     def new_path(x, y, &block)
-      beginpath(x, y)
+      begin_path(x, y)
       block.call
       end_path
     end
