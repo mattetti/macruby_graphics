@@ -32,14 +32,14 @@ module MRGraphics
       @canvas.strokewidth(@strokewidth)
       @canvas.autoclosepath(false)
       @canvas.nofill
-      hair_x0 = choose(hair_x0)
-      hair_y0 = choose(hair_y0)
-      hair_x1 = choose(hair_x1)
-      hair_y1 = choose(hair_y1)
-      vx0 = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
-      vy0 = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
-      vx1 = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
-      vy1 = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
+      hair_x0 = MRGraphics.choose(hair_x0)
+      hair_y0 = MRGraphics.choose(hair_y0)
+      hair_x1 = MRGraphics.choose(hair_x1)
+      hair_y1 = MRGraphics.choose(hair_y1)
+      vx0     = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
+      vy0     = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
+      vx1     = random(-@canvas.width   / 2,  @canvas.width   / 2) * @roundness
+      vy1     = random(-@canvas.height  / 2,  @canvas.height  / 2) * @roundness
       hair_fibers.times do |j|
         #x0,y0,x1,y1 = [@x0.choose,@y0.choose,@x1.choose,@y1.choose]
         @canvas.beginpath(hair_x0, hair_y0)
@@ -60,10 +60,10 @@ module MRGraphics
       @canvas.nofill
       black = Color.black
       white = Color.white
-      ribbon_x0 = choose(ribbon_x0)
-      ribbon_y0 = choose(ribbon_y0)
-      ribbon_x1 = choose(ribbon_x1)
-      ribbon_y1 = choose(ribbon_y1)
+      ribbon_x0 = MRGraphics.choose(ribbon_x0)
+      ribbon_y0 = MRGraphics.choose(ribbon_y0)
+      ribbon_x1 = MRGraphics.choose(ribbon_x1)
+      ribbon_y1 = MRGraphics.choose(ribbon_y1)
       vx0 = random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness
       vy0 = random(-@canvas.height  / 2, @canvas.height / 2) * @roundness
       vx1 = random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness

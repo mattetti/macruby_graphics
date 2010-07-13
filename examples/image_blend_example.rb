@@ -8,7 +8,7 @@ class CustomView < NSView
   include MRGraphics
 
   def drawRect(rect)
-    dimensions = [415,730]
+    dimensions = [CGRectGetWidth(rect), CGRectGetHeight(rect)]
     Canvas.for_current_context(:size => dimensions) do |c|
       c.background(Color.white)
       c.font('Skia')

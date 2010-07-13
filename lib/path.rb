@@ -18,7 +18,7 @@ module MRGraphics
   # Make a reusable path. Draw it using canvas.draw(path)
   class Path
   
-    attr_accessor :path, :rand, :inc, :fill, :stroke, :scale, :strokewidth, :x, :y, :image
+    attr_accessor :path, :rand, :inc, :fill, :stroke, :scale, :stroke_width, :x, :y, :image
   
     # create a new path, starting at optional x,y
     def initialize(x=0, y=0, &block)
@@ -31,10 +31,10 @@ module MRGraphics
       randomize(:x, 0.0)
       randomize(:y, 0.0)
       randomize(:scale, 1.0)
-      randomize(:scalex, 1.0)
-      randomize(:scaley, 1.0)
+      randomize(:scale_x, 1.0)
+      randomize(:scale_y, 1.0)
       randomize(:rotation, 0.0)
-      randomize(:strokewidth, 1.0)
+      randomize(:stroke_width, 1.0)
     
       # set incremental rendering parameters
       @inc = {}
@@ -42,12 +42,12 @@ module MRGraphics
       increment(:x, 0.0)
       increment(:y, 0.0)
       increment(:scale, 1.0)
-      increment(:scalex, 1.0)
-      increment(:scaley, 1.0)
+      increment(:scale_x, 1.0)
+      increment(:scale_y, 1.0)
 
-      @strokewidth = 1.0
-      @x           = 0.0
-      @y           = 0.0
+      @stroke_width = 1.0
+      @x            = 0.0
+      @y            = 0.0
       
       block.call(self) if block
       self
@@ -73,7 +73,7 @@ module MRGraphics
   
     # return a mutable clone of this path
     def clone
-      new_path = self.dup
+      new_path      = self.dup
       new_path.path = CGPathCreateMutableCopy(@path)
       new_path
     end
@@ -100,7 +100,7 @@ module MRGraphics
   
     # print origin and dimensions
     def to_s
-      "path.to_s: bounding box at [#{originx},#{originy}] with #{width}x#{height}, current point [#{currentpoint[0]},#{currentpoint[1]}]"
+      "path.to_s: bounding box at [#{origin_x},#{origin_y}] with #{width}x#{height}, current point [#{currentpoint[0]},#{currentpoint[1]}]"
     end
   
     # return the x coordinate of the path's origin
@@ -304,11 +304,11 @@ module MRGraphics
   
     # duplicate and rotate the Path object the specified number of times
     #path, rotation, scale, translation, iterations
-    def spiral(path=nil, rotation=20, scalex=0.95, scaley=0.95, tx=10, ty=10, iterations=30)
+    def spiral(path=nil, rotation=20, scale_x=0.95, scale_y=0.95, tx=10, ty=10, iterations=30)
       iterations.times do
         add_path(path)
         rotate(rotation)
-        scale(scalex, scaley)
+        scale(scale_x, scale_y)
         translate(tx, ty)
       end
     end

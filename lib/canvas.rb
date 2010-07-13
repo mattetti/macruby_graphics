@@ -704,13 +704,13 @@ module MRGraphics
             if (i > 0)
               # INCREMENT TRANSFORM:
               # translate x, y
-              translate(choose(p.inc[:x]), choose(p.inc[:y]))
+              translate(MRGraphics.choose(p.inc[:x]), MRGraphics.choose(p.inc[:y]))
               # choose a rotation factor from the range
-              rotate(choose(p.inc[:rotation]))
+              rotate(MRGraphics.choose(p.inc[:rotation]))
               # choose a scaling factor from the range
-              sc = choose(p.inc[:scale])
-              sx = choose(p.inc[:scalex]) * sc
-              sy = p.inc[:scaley] ? choose(p.inc[:scaley]) * sc : sx * sc
+              sc = MRGraphics.choose(p.inc[:scale])
+              sx = MRGraphics.choose(p.inc[:scale_x]) * sc
+              sy = p.inc[:scale_y] ? MRGraphics.choose(p.inc[:scale_y]) * sc : sx * sc
               scale(sx, sy)
             end
 
@@ -726,7 +726,7 @@ module MRGraphics
                   c = p.rand[kind]
                   case c
                   when Array
-                    c = choose(c).copy
+                    c = MRGraphics.choose(c).copy
                   when Color
                     c = c.copy
                   else
@@ -737,27 +737,27 @@ module MRGraphics
                 if (p.inc[:hue] or p.inc[:saturation] or p.inc[:brightness])
                   # ITERATE COLOR
                   if (p.inc[:hue])
-                    newhue = (c.hue + choose(p.inc[:hue])) % 1
+                    newhue = (c.hue + MRGraphics.choose(p.inc[:hue])) % 1
                     c.hue(newhue)
                   end
                   if (p.inc[:saturation])
-                    newsat = (c.saturation + choose(p.inc[:saturation]))
+                    newsat = (c.saturation + MRGraphics.choose(p.inc[:saturation]))
                     c.saturation(newsat)
                   end
                   if (p.inc[:brightness])
-                    newbright = (c.brightness + choose(p.inc[:brightness]))
+                    newbright = (c.brightness + MRGraphics.choose(p.inc[:brightness]))
                     c.brightness(newbright)
                   end
                   if (p.inc[:alpha])
-                    newalpha = (c.a + choose(p.inc[:alpha]))
+                    newalpha = (c.a + MRGraphics.choose(p.inc[:alpha]))
                     c.a(newalpha)
                   end
                   p.rand[kind] = c
                 else
                   # RANDOMIZE COLOR
-                  c.hue(choose(p.rand[:hue])) if p.rand[:hue]
-                  c.saturation(choose(p.rand[:saturation])) if p.rand[:saturation]
-                  c.brightness(choose(p.rand[:brightness])) if p.rand[:brightness]
+                  c.hue(MRGraphics.choose(p.rand[:hue])) if p.rand[:hue]
+                  c.saturation(MRGraphics.choose(p.rand[:saturation])) if p.rand[:saturation]
+                  c.brightness(MRGraphics.choose(p.rand[:brightness])) if p.rand[:brightness]
                 end
 
                 # APPLY COLOR
@@ -765,19 +765,19 @@ module MRGraphics
                 stroke(c) if kind == :stroke
               end
               # choose a stroke width from the range
-              strokewidth(choose(p.rand[:strokewidth])) if p.rand[:strokewidth]
+              stroke_width(MRGraphics.choose(p.rand[:strokewidth])) if p.rand[:strokewidth]
               # choose an alpha level from the range
-              alpha(choose(p.rand[:alpha])) if p.rand[:alpha]
+              alpha(MRGraphics.choose(p.rand[:alpha])) if p.rand[:alpha]
 
               # RANDOMIZE TRANSFORM:
               # translate x, y
-              translate(choose(p.rand[:x]), choose(p.rand[:y]))
+              translate(MRGraphics.choose(p.rand[:x]), MRGraphics.choose(p.rand[:y]))
               # choose a rotation factor from the range
-              rotate(choose(p.rand[:rotation]))
+              rotate(MRGraphics.choose(p.rand[:rotation]))
               # choose a scaling factor from the range
-              sc = choose(p.rand[:scale])
-              sx = choose(p.rand[:scalex]) * sc
-              sy = p.rand[:scaley] ? choose(p.rand[:scaley]) * sc : sx * sc
+              sc = MRGraphics.choose(p.rand[:scale])
+              sx = MRGraphics.choose(p.rand[:scale_x]) * sc
+              sy = p.rand[:scale_y] ? MRGraphics.choose(p.rand[:scale_y]) * sc : sx * sc
               scale(sx,sy)
 
               # DRAW

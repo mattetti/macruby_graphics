@@ -23,7 +23,8 @@ You can see a list of examples in the examples folder, but here is a quick sampl
       include MRGraphics
 
       def drawRect(rect)
-        Canvas.for_current_context(:size => [400,400]) do |c|
+        dimensions = [CGRectGetWidth(rect), CGRectGetHeight(rect)]
+        Canvas.for_current_context(:size => dimensions) do |c|
           c.background(Color.black)
           white = Color.white
           c.fill(white)
@@ -58,7 +59,7 @@ You can see a list of examples in the examples folder, but here is a quick sampl
       include MRGraphics
 
       def drawRect(rect)
-        dimensions = [415,730]
+        dimensions = [CGRectGetWidth(rect), CGRectGetHeight(rect)]
         Canvas.for_current_context(:size => dimensions) do |c|
           c.background(Color.white)
           c.font('Skia')
@@ -103,3 +104,4 @@ You can see a list of examples in the examples folder, but here is a quick sampl
 More example outputs:
 
 ![MacRuby Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)
+![MacRuby Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)

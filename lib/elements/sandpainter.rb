@@ -39,7 +39,7 @@ module MRGraphics
       @canvas.push
       # modulate gain
       @gain += random(-0.050, 0.050)
-      @gain = inrange(@gain, 0.0, 1.0)
+      @gain = MRGraphics.in_range(@gain, 0.0, 1.0)
       # calculate grains by distance
       #@grains = (sqrt((ox-x)*(ox-x)+(oy-y)*(oy-y))).to_i
 
