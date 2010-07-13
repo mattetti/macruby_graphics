@@ -8,8 +8,7 @@ class CustomView < NSView
   include MRGraphics
 
   def drawRect(rect)
-    # set up the canvas
-    canvas = Canvas.for_rendering(:size => [CGRectGetWidth(rect), CGRectGetHeight(rect)]) do |c|
+    Canvas.for_current_context(:size => [CGRectGetWidth(rect), CGRectGetHeight(rect)]) do |c|
       c.background(Color.white)
       c.font('Skia')
       c.font_size(14)
@@ -104,11 +103,7 @@ class CustomView < NSView
       c.text("get colors",x,y-15) # add text label
       x += x_offset
     end
-    
-    # set the image viewer
-    img = NSImage.alloc.initWithCGImage(canvas.cgimage, size: NSZeroSize)
-    img.drawAtPoint([0,0], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1)
-  end
+   end
 
 end
 

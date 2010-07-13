@@ -23,7 +23,7 @@ You can see a list of examples in the examples folder, but here is a quick sampl
       include MRGraphics
 
       def drawRect(rect)
-        canvas = Canvas.for_image(:size => [400,400]) do |c|
+        Canvas.for_current_context(:size => [400,400]) do |c|
           c.background(Color.black)
           white = Color.white
           c.fill(white)
@@ -40,12 +40,8 @@ You can see a list of examples in the examples folder, but here is a quick sampl
                     rand(c.height))
           end
         end
-    
-        # set the image viewer
-        img = NSImage.alloc.initWithCGImage(canvas.cgimage, size: NSZeroSize)
-        img.drawAtPoint([0,0], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1)
       end
-  
+
     end
 
     # wrapper class to keep the examples as clean/simple as possible
@@ -58,20 +54,19 @@ You can see a list of examples in the examples folder, but here is a quick sampl
 ![MacRuby Graphics Canvas example](http://img.skitch.com/20100712-1x4dswurhxcqexq5tpidj29axc.png)
 
 
-
     class CustomView < NSView
       include MRGraphics
 
       def drawRect(rect)
         dimensions = [415,730]
-        canvas = Canvas.for_image(:size => dimensions) do
-          background(Color.white)
-          font('Skia')
-          font_size(14)
+        Canvas.for_current_context(:size => dimensions) do |c|
+          c.background(Color.white)
+          c.font('Skia')
+          c.font_size(14)
           # set image width,height
           w, h = [95,95]
           # set initial drawing position
-          x, y = [10, height - h - 10]
+          x, y = [10, c.height - h - 10]
           # load and resize two images
           img_a = Image.new(File.join(HERE, 'images', 'v2.jpg')).resize(w,h)
           img_b = Image.new(File.join(HERE, 'images', 'italy.jpg')).resize(w,h)
@@ -83,19 +78,15 @@ You can see a list of examples in the examples folder, but here is a quick sampl
             :in,:out,:over].each do |blendmode|
             img_a.reset.resize(w,h)
             img_a.blend(img_b, blendmode)
-            draw(img_a,x,y)
-            text(blendmode, x, y-15)
+            c.draw(img_a,x,y)
+            c.text(blendmode, x, y-15)
             x += w + 5
-            if (x > width - w + 5)
+            if (x > c.width - w + 5)
               x = 10
               y -= h + 25
             end
           end
         end
-    
-        # set the image viewer
-        img = NSImage.alloc.initWithCGImage(canvas.cgimage, size: NSZeroSize)
-        img.drawAtPoint([0,0], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1)
       end
   
     end
@@ -109,6 +100,6 @@ You can see a list of examples in the examples folder, but here is a quick sampl
     
 ![MacRuby Image blend modes](http://img.skitch.com/20100712-bedhi8i4ppuqetad263w3ehuna.png)
 
-More output:
+More example outputs:
 
 ![MacRuby Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)

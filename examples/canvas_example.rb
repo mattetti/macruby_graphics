@@ -7,7 +7,7 @@ class CustomView < NSView
   include MRGraphics
 
   def drawRect(rect)
-    canvas = Canvas.for_image(:size => [400,400]) do |c|
+    Canvas.for_current_context(:size => [400,400]) do |c|
       c.background(Color.black)
       white = Color.white
       c.fill(white)
@@ -24,10 +24,6 @@ class CustomView < NSView
                 rand(c.height))
       end
     end
-    
-    # set the image viewer
-    img = NSImage.alloc.initWithCGImage(canvas.cgimage, size: NSZeroSize)
-    img.drawAtPoint([0,0], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1)
   end
   
 end

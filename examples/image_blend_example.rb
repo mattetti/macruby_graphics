@@ -9,7 +9,7 @@ class CustomView < NSView
 
   def drawRect(rect)
     dimensions = [415,730]
-    canvas = Canvas.for_image(:size => dimensions) do |c|
+    Canvas.for_current_context(:size => dimensions) do |c|
       c.background(Color.white)
       c.font('Skia')
       c.font_size(14)
@@ -37,10 +37,6 @@ class CustomView < NSView
         end
       end
     end
-    
-    # set the image viewer
-    img = NSImage.alloc.initWithCGImage(canvas.cgimage, size: NSZeroSize)
-    img.drawAtPoint([0,0], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1)
   end
   
 end
