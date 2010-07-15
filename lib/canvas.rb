@@ -766,7 +766,7 @@ module MRGraphics
                 stroke(c) if kind == :stroke
               end
               # choose a stroke width from the range
-              stroke_width(MRGraphics.choose(p.rand[:strokewidth])) if p.rand[:strokewidth]
+              stroke_width(MRGraphics.choose(p.rand[:stroke_width])) if p.rand[:stroke_width]
               # choose an alpha level from the range
               alpha(MRGraphics.choose(p.rand[:alpha])) if p.rand[:alpha]
 

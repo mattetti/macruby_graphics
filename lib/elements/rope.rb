@@ -17,19 +17,19 @@ module MRGraphics
   
   class Rope
   
-    attr_accessor :x0, :y0, :x1, :y1, :width, :fibers, :roundness, :strokewidth
+    attr_accessor :x0, :y0, :x1, :y1, :width, :fibers, :roundness, :stroke_width
   
     def initialize(canvas, options={})
       @canvas       = canvas
       @width        = options[:width] || 200
       @fibers       = options[:fibers] || 200
       @roundness    = options[:roundness] || 1.0
-      @strokewidth  = options[:strokewidth] || 0.4
+      @stroke_width  = options[:stroke_width] || 0.4
     end
   
     def hair(hair_x0=@x0, hair_y0=@y0, hair_x1=@x1, hair_y1=@y1, hair_width=@width, hair_fibers=@fibers)
       @canvas.push
-      @canvas.stroke_width(@strokewidth)
+      @canvas.stroke_width(@stroke_width)
       @canvas.autoclose_path = false
       @canvas.no_fill
       hair_x0 = MRGraphics.choose(hair_x0)
@@ -55,7 +55,7 @@ module MRGraphics
   
     def ribbon(ribbon_x0=@x0, ribbon_y0=@y0, ribbon_x1=@x1, ribbon_y1=@y1, ribbon_width=@width, ribbon_fibers=@fibers)
       @canvas.push
-      @canvas.strokewidth(@strokewidth)
+      @canvas.stroke_width(@stroke_width)
       @canvas.autoclose_path = false
       @canvas.no_fill
       black = Color.black
@@ -64,14 +64,13 @@ module MRGraphics
       ribbon_y0 = MRGraphics.choose(ribbon_y0)
       ribbon_x1 = MRGraphics.choose(ribbon_x1)
       ribbon_y1 = MRGraphics.choose(ribbon_y1)
-      vx0 = random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness
-      vy0 = random(-@canvas.height  / 2, @canvas.height / 2) * @roundness
-      vx1 = random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness
-      vy1 = random(-@canvas.height  / 2, @canvas.height / 2) * @roundness
+      vx0 = MRGraphics.random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness
+      vy0 = MRGraphics.random(-@canvas.height  / 2, @canvas.height / 2) * @roundness
+      vx1 = MRGraphics.random(-@canvas.width   / 2, @canvas.width  / 2) * @roundness
+      vy1 = MRGraphics.random(-@canvas.height  / 2, @canvas.height / 2) * @roundness
       xwidth = rand(ribbon_width)
       ywidth = rand(ribbon_width)
       ribbon_fibers.times do |j|
-        #x0,y0,x1,y1 = [@x0.choose,@y0.choose,@x1.choose,@y1.choose]
         xoffset = (j-1).to_f * xwidth / ribbon_fibers
         yoffset = (j-1).to_f * ywidth / ribbon_fibers
         cpx0 = ribbon_x0 + vx0 + xoffset

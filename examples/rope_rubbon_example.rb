@@ -14,7 +14,7 @@ class CustomView < NSView
       canvas.background(clr.copy.darken(0.6))
 
       # create a new rope with 200 fibers
-      rope = Rope.new(canvas, :width => 100, :fibers => 200, :stroke_width => 0.4, :roundness => 3.0)
+      rope = Rope.new(canvas, :width => 500, :fibers => 200, :stroke_width => 1.0, :roundness => 1.5)
 
       # randomly rotate the canvas from its center
       canvas.translate(canvas.width/2, canvas.height/2)
@@ -23,15 +23,14 @@ class CustomView < NSView
 
       # draw 20 ropes
       ropes = 20
-      ropes.times do
-        canvas.stroke(clr.copy.analog(20, 0.8)) # rotate hue up to 20 deg left/right, vary brightness/saturation by up to 70%
-        rope.x0 = -100 # start rope off bottom left of canvas
-        rope.y0 = -100
-        rope.x1 = canvas.width + 100 # end rope off top right of canvas
-        rope.y1 = canvas.height + 100
-        rope.hair # draw rope in organic ‚Äúhair‚Äù style
+      ropes.times do |i|
+         canvas.stroke(clr.copy.analog(10, 0.7)) # rotate hue up to 10 deg left/right, vary brightness/saturation by up to 70%
+         rope.x0 = -100 # start rope off bottom left of canvas
+         rope.y0 = -100
+         rope.x1 = canvas.width + 200 # end rope off top right of canvas
+         rope.y1 = canvas.height + 200
+         rope.ribbon # draw rope
       end
-
     end
   end
   

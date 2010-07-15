@@ -104,8 +104,11 @@ You can see a list of examples in the examples folder, but here is a quick sampl
 ##More examples:
 _see the examples folder for the source code of each image's source code._
 
-![MacRuby Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)
-![MacRuby Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)
-![MacRuby particles examples](http://img.skitch.com/20100713-gb3ps8psw3ppyedx1t1x426rwa.png)
-![MacRuby ropes](http://img.skitch.com/20100713-mseyj6qjxp38jnm2xkxpw6ebq4.png)
-![MacRuby Image resizing](http://img.skitch.com/20100715-k8k8f1gd8rb9e1wfj4ush9i5bf.png)
+![MacRuby Graphics Image color effects](http://img.skitch.com/20100712-jr4jfhbaw2x9nmhy7bscapgbd4.png)
+![MacRuby Graphics Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)
+![MacRuby Graphics particles examples](http://img.skitch.com/20100713-gb3ps8psw3ppyedx1t1x426rwa.png)
+![MacRuby Graphics ropes](http://img.skitch.com/20100713-mseyj6qjxp38jnm2xkxpw6ebq4.png)
+![MacRuby Graphics Image resizing](http://img.skitch.com/20100715-k8k8f1gd8rb9e1wfj4ush9i5bf.png)
+![MacRuby Graphics randomize](http://img.skitch.com/20100715-tycucqsgsfiy7syef8i24sw9xj.png)
+![MacRuby Graphics Spirograph](http://img.skitch.com/20100715-jh4nsrm193a2ttdmjjnh4g1x96.png)
+![MacRuby Graphics Rubbons](http://img.skitch.com/20100715-18f5pwc96b2gdfcdag26sjujam.png)
