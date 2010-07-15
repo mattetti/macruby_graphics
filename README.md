@@ -108,3 +108,4 @@ _see the examples folder for the source code of each image's source code._
 ![MacRuby Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)
 ![MacRuby particles examples](http://img.skitch.com/20100713-gb3ps8psw3ppyedx1t1x426rwa.png)
 ![MacRuby ropes](http://img.skitch.com/20100713-mseyj6qjxp38jnm2xkxpw6ebq4.png)
+![MacRuby Image resizing](http://img.skitch.com/20100715-k8k8f1gd8rb9e1wfj4ush9i5bf.png)
