@@ -112,5 +112,5 @@ _see the examples folder for the source code of each image's source code._
 ![MacRuby Graphics Image resizing](http://img.skitch.com/20100715-k8k8f1gd8rb9e1wfj4ush9i5bf.png)
 ![MacRuby Graphics randomize](http://img.skitch.com/20100715-tycucqsgsfiy7syef8i24sw9xj.png)
 ![MacRuby Graphics Spirograph](http://img.skitch.com/20100715-jh4nsrm193a2ttdmjjnh4g1x96.png)
-![MacRuby Graphics Rubbons](http://img.skitch.com/20100715-18f5pwc96b2gdfcdag26sjujam.png
-)
+![MacRuby Graphics color sampler](http://img.skitch.com/20100716-nth8dcm4ag12bcns1fgngt4ird.png)
+![MacRuby Graphics Rubbons](http://img.skitch.com/20100715-18f5pwc96b2gdfcdag26sjujam.png)

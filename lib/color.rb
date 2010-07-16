@@ -800,6 +800,16 @@ module MRGraphics
         false
       end
     end
+    
+    # The spherical coordinates (θ, φ) of the color can be obtained from Cartesian coordinates (x, y, z)
+    # using the YUV values, we are getting 2 spherical coordinates
+    # r isn't calculated
+    # By using theta and psi, one can sort colors
+    def spherical_coordinates
+      theta = Math.acos(y / (Math.sqrt(u*u + v*v + y*y)))
+      psi = Math.atan2(v, u)
+      [theta, psi]
+    end
   
     private
   
