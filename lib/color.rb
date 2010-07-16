@@ -17,19 +17,13 @@ module MRGraphics
 
   # define and manipulate colors in RGBA format
   class Color
-  
-    # License: GPL - includes ports of some code by Tom De Smedt, Frederik De Bleser
-  
-    #attr_accessor :r,:g,:b,:a
+    
     attr_accessor :rgb
-    # def initialize(r=0.0,g=0.0,b=0.0,a=1.0)
-    #   @c = CGColorCreate(@colorspace, [r,g,b,a])
-    # end
-  
+    
     # create a new color with the given RGBA values
     def initialize(r=0.0, g=0.0, b=1.0, a=1.0)
-      @nsColor = NSColor.colorWithDeviceRed r, green:g, blue:b, alpha:a
-      @rgb = @nsColor.colorUsingColorSpaceName NSDeviceRGBColorSpace
+      # color space gets automatically set to NSDeviceRGBColorSpace
+      @rgb = NSColor.colorWithDeviceRed(r, green:g, blue:b, alpha:a)
       self
     end
   
@@ -300,6 +294,40 @@ module MRGraphics
       else
         @rgb.alphaComponent
       end
+    end
+    
+    # 0 to 255
+    def full_r
+      r * 255
+    end
+    
+    def full_g
+      g * 255
+    end
+    
+    def full_b
+      b * 255
+    end
+    
+    # Y from YUV
+    # http://en.wikipedia.org/wiki/YUV
+    # http://softpixel.com/~cwright/programming/colorspace/yuv/
+    def y
+      (0.299 * full_r) + (0.587 * full_g) + (0.114 * full_b)      
+    end
+    
+    # U from YUV
+    def u
+      (full_r * -0.168736) + (full_g * -0.331264) + (full_b *  0.500000) + 128
+    end
+    
+    # V from YUV
+    def v
+     (full_r * 0.500000) + (full_g * -0.418688) + (full_b * -0.081312) + 128
+    end
+    
+    def yuv
+      [y,u,v]
     end
   
     # set or retrieve the hue
@@ -645,18 +673,18 @@ module MRGraphics
       contrast = MRGraphics.in_range(contrast, 0.0, 1.0)
 
       colors = []
-      colors.push(self)
+      colors << self
 
-      for i, j in [[1,2.2], [2,1], [-1,-0.5], [-2,1]] do
+      [[1,2.2], [2,1], [-1,-0.5], [-2,1]].each do |i,j|
         c = copy.rotate_ryb(angle*i)
         t = 0.44-j*0.1
-        if brightness - contrast*j < t then
+        if brightness - contrast*j < t
           c.brightness(t)
         else
           c.brightness(self.brightness - contrast*j)
         end
         c.saturation(c.saturation - 0.05)
-        colors.push(c)
+        colors << c
       end
       colors
     end
@@ -680,7 +708,7 @@ module MRGraphics
         c.saturation(_wrap(saturation, 0.3, 0.1, 0.3))
         colors.push(c)
 
-        c = self.copy()
+        c = self.copy
         c.brightness(_wrap(brightness, 0.5, 0.2, 0.3))
         colors.push(c)
 
@@ -727,41 +755,50 @@ module MRGraphics
   
     # Roughly the complement and some far analogs.
     def compound(flip=false)
-      
-        d = (flip ? -1 : 1)
-      
-        colors = [self]
+      d = (flip ? -1 : 1)
 
-        c = copy.rotate_ryb(30*d)
-        c.brightness(_wrap(brightness, 0.25, 0.6, 0.25))
-        colors.push(c)
+      colors = [self]
 
-        c = copy.rotate_ryb(30*d)
-        c.saturation(_wrap(saturation, 0.4, 0.1, 0.4))
-        c.brightness(_wrap(brightness, 0.4, 0.2, 0.4))
-        colors.push(c)
+      c = copy.rotate_ryb(30*d)
+      c.brightness(_wrap(brightness, 0.25, 0.6, 0.25))
+      colors.push(c)
 
-        c = copy.rotate_ryb(160*d)
-        c.saturation(_wrap(saturation, 0.25, 0.1, 0.25))
-        c.brightness(max(0.2, brightness))
-        colors.push(c)
+      c = copy.rotate_ryb(30*d)
+      c.saturation(_wrap(saturation, 0.4, 0.1, 0.4))
+      c.brightness(_wrap(brightness, 0.4, 0.2, 0.4))
+      colors.push(c)
 
-        c = copy.rotate_ryb(150*d)
-        c.saturation(_wrap(saturation, 0.1, 0.8, 0.1))
-        c.brightness(_wrap(brightness, 0.3, 0.6, 0.3))
-        colors.push(c)
+      c = copy.rotate_ryb(160*d)
+      c.saturation(_wrap(saturation, 0.25, 0.1, 0.25))
+      c.brightness(max(0.2, brightness))
+      colors.push(c)
 
-        c = copy.rotate_ryb(150*d)
-        c.saturation(_wrap(saturation, 0.1, 0.8, 0.1))
-        c.brightness(_wrap(brightness, 0.4, 0.2, 0.4))
-        #colors.push(c)
+      c = copy.rotate_ryb(150*d)
+      c.saturation(_wrap(saturation, 0.1, 0.8, 0.1))
+      c.brightness(_wrap(brightness, 0.3, 0.6, 0.3))
+      colors.push(c)
 
-        colors
+      # c = copy.rotate_ryb(150*d)
+      # c.saturation(_wrap(saturation, 0.1, 0.8, 0.1))
+      # c.brightness(_wrap(brightness, 0.4, 0.2, 0.4))
+      # #colors.push(c)
+
+      colors
     end
   
     # Roughly the complement and some far analogs.
     def flipped_compound
       compound(true)
+    end
+    
+    # Returns true if the color is white-ish
+    def white?
+      r, g, b, a = get_rgb
+      if r > 0.96 && g > 0.96 && b > 0.96
+        true
+      else
+        false
+      end
     end
   
     private

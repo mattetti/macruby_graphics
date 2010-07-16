@@ -54,7 +54,6 @@ class CustomView < NSView
 
       # draw particle trails and heads
       numparticles.times do |i|
-        
         c.push
         # choose a stem color
         color = MRGraphics.choose(blue_colors).a(0.7).analog(20,0.7)
@@ -62,7 +61,7 @@ class CustomView < NSView
         c.stroke_width(MRGraphics.random(0.5,2.0))
 
         # draw the particle
-        particles[i].draw(c) # raising an error
+        particles[i].draw(c)
         
         # go to the last particle position and draw the flower head
         c.translate(particles[i].points[-1][0],particles[i].points[-1][1])
