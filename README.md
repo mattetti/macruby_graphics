@@ -108,7 +108,9 @@ _see the examples folder for the source code of each image's source code._
 ![MacRuby Graphics Image Iterate](http://img.skitch.com/20100713-1132mmahgum65tpgj9d9mag939.png)
 ![MacRuby Graphics particles examples](http://img.skitch.com/20100713-gb3ps8psw3ppyedx1t1x426rwa.png)
 ![MacRuby Graphics ropes](http://img.skitch.com/20100713-mseyj6qjxp38jnm2xkxpw6ebq4.png)
+![MacRuby Graphics effects](http://img.skitch.com/20100716-8ma9te4tc8th723hd4t5rmbbb8.png)
 ![MacRuby Graphics Image resizing](http://img.skitch.com/20100715-k8k8f1gd8rb9e1wfj4ush9i5bf.png)
 ![MacRuby Graphics randomize](http://img.skitch.com/20100715-tycucqsgsfiy7syef8i24sw9xj.png)
 ![MacRuby Graphics Spirograph](http://img.skitch.com/20100715-jh4nsrm193a2ttdmjjnh4g1x96.png)
-![MacRuby Graphics Rubbons](http://img.skitch.com/20100715-18f5pwc96b2gdfcdag26sjujam.png)
+![MacRuby Graphics Rubbons](http://img.skitch.com/20100715-18f5pwc96b2gdfcdag26sjujam.png
+)

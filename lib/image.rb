@@ -361,9 +361,9 @@ module MRGraphics
     def dotscreen(dx=0, dy=0, angle=0, width=6, sharpness=0.7)
       filter 'CIDotScreen',
         :inputCenter => CIVector.vectorWithX(dx.to_f, Y:dy.to_f), 
-        :inputAngle => max(0, min(angle, 360)), 
-        :inputWidth => max(1, min(width, 50)), 
-        :inputSharpness => max(0, min(sharpness, 1))
+        :inputAngle => MRGraphics.max(0, MRGraphics.min(angle, 360)), 
+        :inputWidth => MRGraphics.max(1, MRGraphics.min(width, 50)), 
+        :inputSharpness => MRGraphics.max(0, MRGraphics.min(sharpness, 1))
       self
     end
   

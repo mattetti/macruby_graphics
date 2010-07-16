@@ -162,7 +162,7 @@ module MRGraphics
           x = x - self.width / 2
           y = y - self.height / 2
         end
-        curve = min(width * roundness, height * roundness)
+        curve = MRGraphics.min(width * roundness, height * roundness)
         p = Path.new
         p.move_to(x, y+curve)
         p.curve_to(x, y, x, y, x+curve, y)
