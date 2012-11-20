@@ -18,6 +18,7 @@
 
 framework 'Cocoa'
 framework 'Quartz'
+framework 'CoreGraphics'
 
 module MRGraphics
 
