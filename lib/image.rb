@@ -55,7 +55,8 @@ module MRGraphics
       when String
         # if it's the path to an image file, load as a CGImage
         @path = img
-        @ciimage     = CIImage.imageWithContentsOfURL(NSURL.URLWithString(@path)) or raise "badness"
+        url = File.exists?(img) ? NSURL.fileURLWithPath(img) : NSURL.URLWithString(img)
+        @ciimage     = CIImage.imageWithContentsOfURL(url) or raise "badness"
       when Canvas
         puts "Image.new with canvas" if @verbose
         @path = 'canvas'

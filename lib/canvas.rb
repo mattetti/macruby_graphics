@@ -664,7 +664,7 @@ module MRGraphics
         return
       elsif @filetype == :png
         format = NSPNGFileType
-      elsif @filetype == :tif
+      elsif @filetype == :tif || @filetype == :tiff
         format = NSTIFFFileType
         properties[NSImageCompressionMethod] = NSTIFFCompressionLZW
         #properties[NSImageCompressionMethod] = NSTIFFCompressionNone
