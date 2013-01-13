@@ -360,6 +360,12 @@ module MRGraphics
       CGContextAddArc(@ctx, x, y, radius, start_angle, end_angle, clockwise)
       CGContextDrawPath(@ctx, KCGPathStroke)
     end
+
+    # draw the arc of a circle with center point x,y, radius, start angle (0 deg = 12 o'clock) and end angle
+    def circle(x, y, radius)
+      CGContextAddArc(@ctx, x, y, radius, 0, 2*Math::PI, 1)
+      CGContextDrawPath(@ctx, KCGPathFillStroke)
+    end
   
     # draw a bezier curve from the current point, given the coordinates of two handle control points and an end point
     def curve(cp1x, cp1y, cp2x, cp2y, x1, y1, x2, y2)
@@ -658,7 +664,7 @@ module MRGraphics
         return
       elsif @filetype == :png
         format = NSPNGFileType
-      elsif @filetype == :tif
+      elsif @filetype == :tif || @filetype == :tiff
         format = NSTIFFFileType
         properties[NSImageCompressionMethod] = NSTIFFCompressionLZW
         #properties[NSImageCompressionMethod] = NSTIFFCompressionNone

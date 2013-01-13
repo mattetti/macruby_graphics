@@ -46,7 +46,7 @@ module MRGraphics
     }
     BlendModes.default('CISourceOverCompositing')
       
-    attr_reader :cgimage
+    attr_reader :ciimage
   
     # load the image from the given path
     def initialize(img, verbose=false)
@@ -55,14 +55,11 @@ module MRGraphics
       when String
         # if it's the path to an image file, load as a CGImage
         @path = img
-        File.exists?(@path) or raise "ERROR: file not found: #{@path}"
-        image_source = CGImageSourceCreateWithURL(NSURL.fileURLWithPath(@path), nil)
-        @cgimage     = CGImageSourceCreateImageAtIndex(image_source, 0, nil)
-        @ciimage     = CIImage.imageWithCGImage(@cgimage)
+        url = File.exists?(img) ? NSURL.fileURLWithPath(img) : NSURL.URLWithString(img)
+        @ciimage     = CIImage.imageWithContentsOfURL(url) or raise "badness"
       when Canvas
         puts "Image.new with canvas" if @verbose
         @path = 'canvas'
-        @cgimage = img.cgimage
       else
         raise "ERROR: image type not recognized: #{img.class}"
       end
@@ -72,9 +69,8 @@ module MRGraphics
       self
     end
   
-    # reload the bitmap image
     def reset
-      @ciimage = CIImage.imageWithCGImage(@cgimage)
+      @ciimage = @original.copy
       self
     end
   
@@ -95,22 +91,22 @@ module MRGraphics
   
     # return the width of the image
     def width
-      @ciimage ? @ciimage.extent.size.width : CGImageGetWidth(@cgimage)
+      @ciimage.extent.size.width
     end
   
     # return the height of the image
     def height
-      @ciimage ? @ciimage.extent.size.height : CGImageGetHeight(@cgimage)
+      @ciimage.extent.size.height
     end
   
     # return the x coordinate of the image's origin
     def x
-      @ciimage ? @ciimage.extent.origin.x : 0
+      @ciimage.extent.origin.x
     end
   
     # return the y coordinate of the image's origin
     def y
-      @ciimage ? @ciimage.extent.origin.y : 0
+      @ciimage.extent.origin.y
     end
   
     # def translate(x,y)
@@ -390,7 +386,6 @@ module MRGraphics
   
     # draw this image to the specified context
     def draw(ctx,x=0,y=0,w=width,h=height)
-      ciimage
       # imgx = x + self.x
       # imyy = y + self.y
       resize(w, h) if w != self.width || h != self.height
@@ -405,15 +400,9 @@ module MRGraphics
       cicontext.drawImage ciimage, atPoint:CGPointMake(x,y), fromRect:CGRectMake(self.x,self.y,w,h)
     end
   
-    # return the CIImage for this Image object
-    def ciimage
-      @ciimage ||= CIImage.imageWithCGImage(@cgimage)
-    end
-  
     # return an array of n colors chosen randomly from the source image.
     # if type = :grid, choose average colors from each square in a grid with n squares
     def colors(n=32, type=:random)
-      ciimage
       colors = []
       if (type == :grid) then
         filtername = 'CIAreaAverage'
@@ -461,22 +450,19 @@ module MRGraphics
       colors
     end
   
-    private
-  
-      # apply the named CoreImage filter using a hash of parameters
-      def filter(filtername, parameters)
-        ciimage
-        f = CIFilter.filterWithName(filtername)
-        f.setDefaults
-        f.setValue @ciimage, forKey:'inputImage'
-        parameters.each do |key,value|
-          f.setValue value, forKey:key
-        end
-        puts "image.filter #{filtername}" if @verbose
-        @ciimage = f.valueForKey('outputImage') # CIImageRef
-        self
+    # apply the named CoreImage filter using a hash of parameters
+    def filter(filtername, parameters)
+      f = CIFilter.filterWithName(filtername)
+      f.setDefaults
+      f.setValue @ciimage, forKey:'inputImage'
+      parameters.each do |key,value|
+        f.setValue value, forKey:key
       end
-  
+      puts "image.filter #{filtername}" if @verbose
+      @ciimage = f.valueForKey('outputImage') # CIImageRef
+      self
+    end
+
   end
-  
+ 
 end
